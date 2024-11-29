@@ -7,7 +7,15 @@
     <title>Vite App</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div x-data="qrData">
+      <div x-ref="loadingMessage" hidden>⌛ Loading video...</div>
+      <canvas id="canvas" x-ref="canvas" height="480" width="640"></canvas>
+      <div x-ref="output">
+          Ticks: <div x-text="frame"></div>
+          <div x-ref="outputMessage">No QR code detected.</div>
+          <div x-ref="outputDataContainer" hidden><b>Data:</b> <span x-ref="outputData"></span></div>
+      </div>
+    </div>
     <script type="module" src="/main.js"></script>
   </body>
 </html>
