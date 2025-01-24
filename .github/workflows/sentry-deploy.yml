@@ -31,11 +31,3 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.VITE_SENTRY_PROJECT }}
         run: |
           npm install -g @sentry/cli
-          sentry-cli releases new $GITHUB_SHA
-          sentry-cli releases set-commits --auto $GITHUB_SHA
-          sentry-cli releases finalize $GITHUB_SHA
-
-      - name: Deploy to Server
-        run: |
-          echo "Deploying application..."
-          # Add your deployment script here
