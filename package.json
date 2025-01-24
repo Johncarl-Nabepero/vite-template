@@ -10,5 +10,10 @@
   },
   "devDependencies": {
     "vite": "^5.4.10"
+  },
+  "dependencies": {
+    "@sentry/browser": "^8.51.0",
+    "@sentry/vite-plugin": "^3.0.0",
+    "dotenv": "^16.4.7"
   }
 }
