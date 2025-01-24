@@ -13,21 +13,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: npm install  # or yarn install if using Yarn
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # specify the Node.js version you're using
 
-      - name: Build project
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Compile assets
+        run: |
+          npm run build
+
+      - name: Upload source maps to Sentry
+        run: |
+          npx @sentry/cli releases files ${{ github.sha }} upload-sourcemaps ./dist --ext .js --ext .map
         env:
-          VITE_SENTRY_JAVASCRIPT_DSN: ${{ secrets.VITE_SENTRY_JAVASCRIPT_DSN }}
           VITE_SENTRY_AUTH_TOKEN: ${{ secrets.VITE_SENTRY_AUTH_TOKEN }}
           VITE_SENTRY_ORG: ${{ secrets.VITE_SENTRY_ORG }}
           VITE_SENTRY_PROJECT: ${{ secrets.VITE_SENTRY_PROJECT }}
-        run: npm run build  # or yarn build
-
-      - name: Create Sentry release
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.VITE_SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.VITE_SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.VITE_SENTRY_PROJECT }}
-        run: |
-          npm install -g @sentry/cli
+          VITE_SENTRY_JAVASCRIPT_DSN: ${{ secrets.VITE_SENTRY_JAVASCRIPT_DSN }}
+          VITE_SENTRY_DEV_URL: ${{ secrets.VITE_SENTRY_DEV_URL }}
